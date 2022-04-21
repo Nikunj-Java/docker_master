@@ -21,29 +21,7 @@ node {
       
     }
   }
-  stage('Docker Build') {
-            steps {
-                echo '----------------- This is a build docker image phase ----------'
-                sh '''
-                    docker image build -t docker_master .
-                '''
-            }
-        }
-
-   stage('Docker Deploy') {
-            steps {
-                echo '----------------- This is a docker deploment phase ----------'
-                sh '''
-                 (if  [ $(docker ps -a | grep docker_master | cut -d " " -f1) ]; then \
-                        echo $(docker rm -f docker_master); \
-                        echo "---------------- successfully removed docker_master ----------------"
-                     else \
-                    echo OK; \
-                 fi;);
-            docker container run --restart always --name docker_master -p 8081:8081 -d docker_master
-            '''
-            }
-    }
+   
   
    
  }

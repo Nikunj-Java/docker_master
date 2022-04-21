@@ -1,41 +1,26 @@
-pipeline {
-  environment {
-    imagename = "yenigul/hacicenkins"
-    registryCredential = 'nikunj0510'
-    dockerImage = ''
+node {
+  
+  stage('Checkout Source Code') {
+    checkout scm
   }
-  agent any
-  stages {
-    stage('Cloning Git') {
-      steps {
-        git([url: 'https://github.com/ismailyenigul/hacicenkins.git', branch: 'master', credentialsId: 'ismailyenigul-github-user-token'])
 
-      }
-    }
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build imagename
-        }
-      }
-    }
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-             dockerImage.push('latest')
+  stage('Create Docker Image') {
+    docker.build("docker_image:${env.BUILD_NUMBER}")
+  }
 
-          }
-        }
-      }
-    }
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $imagename:$BUILD_NUMBER"
-         sh "docker rmi $imagename:latest"
-
-      }
+  stage ('Run Application') {
+    try {
+      // Stop existing Container
+      sh 'docker rm docker_container -f'
+      // Start database container here
+      sh "docker run -d --name docker_container docker_image:${env.BUILD_NUMBER}"
+    } 
+	catch (error) {
+    } finally {
+      // Stop and remove database container here
+      
     }
   }
-}
+  
+   
+ }

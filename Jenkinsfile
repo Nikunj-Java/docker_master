@@ -1,5 +1,7 @@
 node {
-  
+environment {
+    DOCKERHUB_CREDENTIALS = credentials('DockerHub crendentials')
+  }
   stage('Checkout Source Code') {
     checkout scm
   }
@@ -15,15 +17,26 @@ node {
       // Start database container here
       sh "docker run -d --name docker_container docker_image:${env.BUILD_NUMBER}"
 	    //push to docker hub
+	    
 	//sh "docker push nikunj0510/docker_image:${env.BUILD_NUMBER}"
     } 
      
-	catch (error) {
+catch (error) {
     } finally {
       // Stop and remove database container here
       
     }
   }
-  
+	
+ stage('Login') {
+      steps {
+        sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+      }
+    }
+  stage('Push') {
+      steps {
+        sh "docker push nikunj0510/docker_image:${env.BUILD_NUMBER}"
+      }
+    }
    
  }

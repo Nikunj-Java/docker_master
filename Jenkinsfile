@@ -1,7 +1,5 @@
 node {
-environment {
-    DOCKERHUB_CREDENTIALS = credentials('DockerHub crendentials')
-  }
+ 
   stage('Checkout Source Code') {
     checkout scm
   }
@@ -27,12 +25,7 @@ catch (error) {
       
     }
   }
-stage('Push') {
-      
-        sh "docker push nikunj0510/docker_image:${env.BUILD_NUMBER}"
-      
-    }
-	
+ 
   
   
    

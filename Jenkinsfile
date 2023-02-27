@@ -27,10 +27,10 @@ catch (error) {
       
     }
   }
-	stage('Push') {
-      steps {
+stage('Push') {
+      
         sh "docker push nikunj0510/docker_image:${env.BUILD_NUMBER}"
-      }
+      
     }
 	
   

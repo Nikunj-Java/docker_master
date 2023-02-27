@@ -27,16 +27,13 @@ catch (error) {
       
     }
   }
-	
- stage('Login') {
-      steps {
-        sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
-      }
-    }
-  stage('Push') {
+	stage('Push') {
       steps {
         sh "docker push nikunj0510/docker_image:${env.BUILD_NUMBER}"
       }
     }
+	
+  
+  
    
  }

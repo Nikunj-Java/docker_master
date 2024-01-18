@@ -26,7 +26,7 @@ node {
 	catch (error) {
     } finally {
       // Stop and remove database container here
-      
+      echo "error occured"
     }
  
   }

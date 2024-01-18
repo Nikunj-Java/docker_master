@@ -1,4 +1,5 @@
-def containerName="springbootdocker"
+def containerName="dokcer_container"
+def imageName="dokcer_master"
 def tag="latest"
  
 node {
@@ -9,16 +10,16 @@ node {
   }
  
     stage('Image Build'){
-        sh "docker build -t $containerName:${env.BUILD_NUMBER} --pull --no-cache ."
+        sh "docker build -t $imageName:${env.BUILD_NUMBER} --pull --no-cache ."
         echo "Image build complete"
     }
    
     stage ('Run Application') {
     try {
       // Stop existing Container
-       //sh 'docker rm $containerName -f'
+       sh 'docker rm $containerName -f'
       // Start database container here
-      sh "docker run -d --name $containerName:${env.BUILD_NUMBER} -p 80:80 $containerName:${env.BUILD_NUMBER}"
+      sh "docker run -d --name $imageName:${env.BUILD_NUMBER} -p 80:80 $containerName:${env.BUILD_NUMBER}"
        
 
     } 

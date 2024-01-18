@@ -18,7 +18,9 @@ node {
       // Stop existing Container
        //sh 'docker rm $containerName -f'
       // Start database container here
-      sh "docker run -d --name $containerName $containerName:${env.BUILD_NUMBER}"
+      sh "docker run -d --name $containerName:${env.BUILD_NUMBER} -p 80:80 $containerName:${env.BUILD_NUMBER}"
+      sh "docker run -p 80:80 
+
     } 
 	catch (error) {
     } finally {

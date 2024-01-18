@@ -17,7 +17,7 @@ node {
     stage ('Run Application') {
     try {
       // Stop existing Container
-       sh 'docker rm $containerName -f'
+      // sh 'docker rm $containerName -f'
       // Start database container here
       sh "docker run -d --name $imageName:${env.BUILD_NUMBER} -p 80:80 $containerName:${env.BUILD_NUMBER}"
        
